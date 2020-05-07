@@ -2,22 +2,99 @@ extends ../layouts/default
 
 block content
 	.container: .jumbotron
-		img(src='/images/logo.svg', width='160')
-		h1 Welcome
-		p This is your new <a href='http://keystonejs.com' target='_blank'>KeystoneJS</a> website.
-		p It includes the latest versions of
-			| <a href='http://getbootstrap.com/' target='_blank'>Bootstrap</a>
-			| and <a href='http://www.jquery.com/' target='_blank'>jQuery</a>.
-		p Visit the <a href='http://keystonejs.com/guide' target='_blank'>Getting Started</a> guide to learn how to customise it.
-		hr
-		if user && user.canAccessKeystone
-			p
-				a(href='/keystone').btn.btn-lg.btn-primary Open the Admin UI
-		else
-			p We have created a default Admin user for you with the email <strong>jsc612@inlumine.ual.es</strong> and the password <strong>admin</strong>.
-			p
-				a(href='/keystone/signin', style='margin-right: 10px').btn.btn-lg.btn-primary Sign in
-				|  to use the Admin UI.
-		hr
-		p Remember to <a href='https://github.com/keystonejs/keystone' target='_blank'>Star KeystoneJS on GitHub</a> and
-			| <a href='https://twitter.com/keystonejs' target='_blank'>follow @keystonejs</a> on twitter for updates.
+		h2 #{title}
+		#map
+		script.
+			var myData = !{JSON.stringify(data_map)};
+			// Create variable to hold map element, give initial settings to map
+			var map = L.map('map',{ center: [16.375562, -28.106870], zoom: 3});
+			// Add OpenStreetMap tile layer to map element
+
+			L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+				attribution: '© OpenStreetMap'
+			}).addTo(map);
+
+			myData.forEach((data) =>{
+				if(data.lon != null && data.lat != null){
+					var geojsonFeature = {
+						"type": "Feature",
+							"properties": {
+							"name": data.country_region,
+							"deaths": data.deaths,
+							"recovered": data.recovered,
+							"confirmed": data.confirmed
+						},
+						"geometry": {
+							"type": "Point",
+							"coordinates": [data.lon,data.lat]
+						}
+					};
+
+					casesString = `${data.confirmed}`;
+
+					if ( data.confirmed > 1000 ) {
+					casesString = `${casesString.slice(0, -3)}k+`
+					}
+
+					//- if ( updated ) {
+					//- updatedFormatted = new Date(updated).toLocaleString();
+					//- }
+					const html = `
+						<span class="icon-marker">
+							<span class="icon-marker-tooltip">
+							<h2>${data.country_region}</h2>
+							<ul>
+								<li><strong>Confirmed:</strong> ${data.confirmed}</li>
+								<li><strong>Deaths:</strong> ${data.deaths}</li>
+								<li><strong>Recovered:</strong> ${data.recovered}</li>
+								<li><strong>Last Update:</strong> ${data.date}</li>
+							</ul>
+							</span>
+							${ casesString }
+						</span>
+						`;
+					var marker = L.marker([data.lat, data.lon],{
+												icon: L.divIcon({
+													className: 'icon',
+													html: html
+												}),
+												riseOnHover: true
+											}).addTo(map);	
+				}
+			});
+		br
+		br
+		br
+		.container
+			.row
+				.col.col-md-6.col-sm-6.col-xs-12
+					h2 TOP 10 paises infectados
+					table.table.table-responsive
+						tr.thead-dark
+							th(scope="col") Country
+							th(scope="col") Deaths
+							th(scope="col") Confirmed
+							th(scope="col") Recovered
+						for data in data_confirmed
+							tr
+								td #{data.country_region}
+								td #{data.deaths}
+								td #{data.confirmed}
+								td #{data.recovered}
+				.col.col-md-6.col-sm-6.col-xs-12
+					h2 TOP 10 paises muertes
+					table.table.table-responsive
+						tr.thead-dark
+							th(scope="col") Country
+							th(scope="col") Deaths
+							th(scope="col") Confirmed
+							th(scope="col") Recovered
+						- var n = 0;
+						for data in data_map
+							if n < 10
+								- n++;
+								tr
+									td #{data.country_region}
+									td #{data.deaths}
+									td #{data.confirmed}
+									td #{data.recovered}
