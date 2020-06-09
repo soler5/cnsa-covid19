@@ -7,24 +7,6 @@ const apiOptions = {
     server : "http://localhost:3000"
 };
 
-const showError = (req, res, status) => {
-    let title = '';
-    let content = '';
-    if (status === 404) { 
-        title = "404, page not found";
-        content = "Oh dear. Looks like we can't find this page. Sorry.";
-    } else  {
-        title = status + ", something's gone wrong";
-        content = "Something, somewhere, has gone just a little bit wrong.";
-    }
-    res.status(status);
-    res.render('generic-text', {
-        title : title,
-        content : content
-    });
-};
-
-
 /* GET 'home' page */
 const homelist = (req, res) => {
 
@@ -193,7 +175,21 @@ const spain = (req, res) => {
     FROM \`bigquery-public-data.covid19_jhu_csse.summary\`
     where country_region="Spain"
 	group by date
-	order by date asc`;
+	order by date desc
+    limit 1`;
+
+    const sqlQueryGraph = `SELECT date, sum(deaths) as deaths, sum(recovered) as recovered, sum(confirmed) as confirmed
+    FROM \`bigquery-public-data.covid19_jhu_csse.summary\`
+    where country_region="Spain"
+	group by date
+    order by date asc`;
+
+
+	const optionsGraph = {
+	query: sqlQueryGraph,
+	// Location must match that of the dataset(s) referenced in the query.
+	location: 'US'
+    };
 
 	const optionsSummary = {
 		query: sqlQuerySummary,
@@ -203,11 +199,38 @@ const spain = (req, res) => {
 	
 	// Run the query
 	bigqueryClient.query(optionsSummary).then((rowSummary)=>{	
-        // Render the view
-        res.render('index', {
-            title: 'Covid19 - Situación actual',
-            data_summary: rowSummary[0],
-            data_confirmed: rowsConfirmed[0],
+        bigqueryClient.query(optionsGraph).then((rowsGraph)=>{	
+            let jsonSalida = {
+                date : ["2020-01-21"],
+                deaths: [0],
+                recovered: [0],
+                confirmed: [0],
+              };
+              let jsonSalida_diario = {
+                date : ["2020-01-21"],
+                deaths: [0],
+                recovered: [0],
+                confirmed: [0],
+              };
+    
+            rowsGraph[0].forEach(row=>{
+                jsonSalida.date.push(row.date.value);
+                jsonSalida_diario.date.push(row.date.value);
+                jsonSalida_diario.deaths.push(Math.abs(row.deaths-jsonSalida.deaths[jsonSalida.deaths.length-1]));
+                jsonSalida_diario.confirmed.push(Math.abs(row.confirmed-jsonSalida.confirmed[jsonSalida.confirmed.length-1]));
+                jsonSalida_diario.recovered.push(Math.abs(row.recovered-jsonSalida.recovered[jsonSalida.recovered.length-1]));
+                jsonSalida.deaths.push(row.deaths);
+                jsonSalida.recovered.push(row.recovered);
+                jsonSalida.confirmed.push(row.confirmed);
+    
+            })    
+            // Render the view
+            res.render('spain', {
+                title: 'Covid19 - Situación actual',
+                spain_summary: rowSummary[0][0],
+                data_graph: jsonSalida,
+                data_graph_diario: jsonSalida_diario,    
+            });
         });
 	});
 };
@@ -216,5 +239,5 @@ module.exports = {
     homelist,
     mapa,
     graficos,
-    // spain
+    spain
 };

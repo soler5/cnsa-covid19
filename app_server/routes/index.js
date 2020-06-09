@@ -6,6 +6,6 @@ const ctrlLocations = require('../controllers/locations');
 router.get('/', ctrlLocations.homelist);
 router.get('/graficos', ctrlLocations.graficos);
 router.get('/mapa', ctrlLocations.mapa);
-// router.post('/spain', ctrlLocations.spain);
+router.get('/spain', ctrlLocations.spain);
 
 module.exports = router;
