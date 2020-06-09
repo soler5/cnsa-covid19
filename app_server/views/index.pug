@@ -1,0 +1,54 @@
+extends layout
+
+include _includes/sharedHTMLfunctions
+
+block content
+    .container: .jumbotron
+        h2 Situación actual a fecha #{world_summary.date.value}
+        table.table.table-dark
+            thead
+                tr
+                    th.text-warning Confirmed
+                    th.text-danger Deaths
+                    th.text-success Recovered
+            tbody
+                tr
+                    td.text-warning #{world_summary.confirmed}
+                    td.text-danger #{world_summary.deaths}
+                    td.text-success #{world_summary.recovered}
+        br
+        br
+        br
+        .container
+            .row
+                .col.col-md-6.col-sm-6.col-xs-12
+                    h2 TOP 10 paises infectados
+                    table.table.table-responsive
+                        tr.thead-dark
+                            th(scope="col") Country
+                            th(scope="col") Deaths
+                            th(scope="col") Confirmed
+                            th(scope="col") Recovered
+                        for data in data_confirmed
+                            tr
+                                td #{data.country_region}
+                                td #{data.deaths}
+                                td #{data.confirmed}
+                                td #{data.recovered}
+                .col.col-md-6.col-sm-6.col-xs-12
+                    h2 TOP 10 paises muertes
+                    table.table.table-responsive
+                        tr.thead-dark
+                            th(scope="col") Country
+                            th(scope="col") Deaths
+                            th(scope="col") Confirmed
+                            th(scope="col") Recovered
+                        - var n = 0;
+                        for data in data_map
+                            if n < 10
+                                - n++;
+                                tr
+                                    td #{data.country_region}
+                                    td #{data.deaths}
+                                    td #{data.confirmed}
+                                    td #{data.recovered}

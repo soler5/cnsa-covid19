@@ -1,0 +1,258 @@
+extends layout
+
+include _includes/sharedHTMLfunctions
+
+block content
+    .container: .jumbotron
+        .row
+            canvas(id="canvas1" style="width=200px; height=200px")
+        script.
+            var data_graph = !{JSON.stringify(data_graph)};
+            console.log(data_graph);
+            var ctx = document.getElementById('canvas1').getContext('2d');
+            var chart = new Chart(ctx, {
+                // The type of chart we want to create
+                type: 'line',
+                // The data for our dataset
+                data: {
+                    labels: data_graph.date,
+                datasets: [
+                    {
+                    label: 'Deaths',
+                    fill: false,
+                    data: data_graph.deaths,
+                    borderColor: "red",
+                    borderWidth: 3,
+                    pointDotRadius: 1,
+                    pointDotStrokeWidth: 8,
+                    pointHitDetectionRadius: 20,            
+
+                    pointRadius: 0,
+                    hoverRadius:5
+                    },
+                    {
+                    label: 'Recovered',
+                    fill: false,
+                    data: data_graph.recovered,
+                    borderColor: 'green',
+                    borderWidth: 3,
+                    pointDotRadius: 1,
+                    pointDotStrokeWidth: 8,
+                    pointHitDetectionRadius: 20,            
+
+                    pointRadius: 0,
+                    hoverRadius:5
+                    },
+                    {
+                    label: 'Confirmed',
+                    fill: false,
+                    data: data_graph.confirmed,
+                    borderColor: 'orange',
+                    borderWidth: 3,
+                    pointDotRadius: 1,
+                    pointDotStrokeWidth: 8,
+                    pointHitDetectionRadius: 20,            
+
+                    pointRadius: 0,
+                    hoverRadius:5
+
+                    },
+                    ]
+                },
+
+                // Configuration options go here
+                options: {
+                    legend: {
+                    position: 'top',
+                    labels: {
+                        fontColor: 'white'
+                    }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Grafica acumulado',
+                        fontColor: 'white'
+                    },
+                    tooltips: {
+                        mode: 'index',
+                        position: 'nearest',
+                        intersect: false
+                        
+                    },
+                    ointLabels: {
+                        fontColor: 'white' // labels around the edge like 'Running'
+                    },
+                    gridLines: {
+                        color: 'white'
+                    },
+                    angleLines: {
+                        color: 'white' // lines radiating from the center
+                    },
+                    scales: {
+                            xAxes: [ {
+                                gridLines: {
+                                    color: "rgb(231,233,237,0.3)"
+                                },
+                                //- type: 'time',
+                                color: 'white',
+                                //- time: {
+                                //-     parser: 'YYYY-MM-DDTHH:mm:ss.sssZ',
+                                //-     // tooltipFormat: 'll HH:mm',
+                                //-     // unit: 'day',
+                                //-     unitStepSize: 7,
+                                //-     // displayFormats: {
+                                //-     //   'day': 'DD/MM/YYYY'
+                                //-     // }
+                                //-     displayFormats: {
+                                //-     'millisecond': 'MMM DD',
+                                //-     'second': 'MMM DD',
+                                //-     'minute': 'MMM DD',
+                                //-     'hour': 'MMM DD',
+                                //-     'day': 'MMM DD',
+                                //-     'week': 'MMM DD',
+                                //-     'month': 'MMM DD',
+                                //-     'quarter': 'MMM DD',
+                                //-     'year': 'MMM DD',
+                                //-     }
+                                //- }
+                            }
+                        ],
+                        yAxes: [{
+                            gridLines: {
+                            color: "rgb(231,233,237,0.3)"
+                            },
+                            fontColor: 'white',
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });         
+        br
+        .row
+            canvas(id="canvas2" style="width=200px; height=200px")
+            script.
+                var data_graph_diario = !{JSON.stringify(data_graph_diario)};
+                console.log(data_graph_diario);
+                var ctx = document.getElementById('canvas2').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'line',
+                    // The data for our dataset
+                    data: {
+                        labels: data_graph_diario.date,
+                    datasets: [
+                        {
+                        label: 'Deaths',
+                        fill: false,
+                        data: data_graph_diario.deaths,
+                        borderColor: "red",
+                        borderWidth: 3,
+                        pointDotRadius: 1,
+                        pointDotStrokeWidth: 8,
+                        pointHitDetectionRadius: 20,            
+
+                        pointRadius: 0,
+                        hoverRadius:5
+                        },
+                        {
+                        label: 'Recovered',
+                        fill: false,
+                        data: data_graph_diario.recovered,
+                        borderColor: 'green',
+                        borderWidth: 3,
+                        pointDotRadius: 1,
+                        pointDotStrokeWidth: 8,
+                        pointHitDetectionRadius: 20,            
+
+                        pointRadius: 0,
+                        hoverRadius:5
+                        },
+                        {
+                        label: 'Confirmed',
+                        fill: false,
+                        data: data_graph_diario.confirmed,
+                        borderColor: 'orange',
+                        borderWidth: 3,
+                        pointDotRadius: 1,
+                        pointDotStrokeWidth: 8,
+                        pointHitDetectionRadius: 20,            
+
+                        pointRadius: 0,
+                        hoverRadius:5
+
+                        },
+                        ]
+                    },
+
+                    // Configuration options go here
+                    options: {
+                        legend: {
+                        position: 'top',
+                        labels: {
+                            fontColor: 'white'
+                        }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Grafica diario',
+                            fontColor: 'white'
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            position: 'nearest',
+                            intersect: false
+                            
+                        },
+                        ointLabels: {
+                            fontColor: 'white' // labels around the edge like 'Running'
+                        },
+                        gridLines: {
+                            color: 'white'
+                        },
+                        angleLines: {
+                            color: 'white' // lines radiating from the center
+                        },
+                        scales: {
+                                xAxes: [ {
+                                    gridLines: {
+                                        color: "rgb(231,233,237,0.3)"
+                                    },
+                                    //- type: 'time',
+                                    color: 'white',
+                                    //- time: {
+                                    //-     parser: 'YYYY-MM-DDTHH:mm:ss.sssZ',
+                                    //-     // tooltipFormat: 'll HH:mm',
+                                    //-     // unit: 'day',
+                                    //-     unitStepSize: 7,
+                                    //-     // displayFormats: {
+                                    //-     //   'day': 'DD/MM/YYYY'
+                                    //-     // }
+                                    //-     displayFormats: {
+                                    //-     'millisecond': 'MMM DD',
+                                    //-     'second': 'MMM DD',
+                                    //-     'minute': 'MMM DD',
+                                    //-     'hour': 'MMM DD',
+                                    //-     'day': 'MMM DD',
+                                    //-     'week': 'MMM DD',
+                                    //-     'month': 'MMM DD',
+                                    //-     'quarter': 'MMM DD',
+                                    //-     'year': 'MMM DD',
+                                    //-     }
+                                    //- }
+                                }
+                            ],
+                            yAxes: [{
+                                gridLines: {
+                                color: "rgb(231,233,237,0.3)"
+                                },
+                                fontColor: 'white',
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                }); 
+            

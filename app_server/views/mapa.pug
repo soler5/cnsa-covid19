@@ -1,0 +1,66 @@
+extends layout
+
+include _includes/sharedHTMLfunctions
+
+block content
+	.container: .jumbotron
+		h2 #{title}
+		#map
+		script.
+			var myData = !{JSON.stringify(data_map)};
+			// Create variable to hold map element, give initial settings to map
+			var map = L.map('map',{ center: [16.375562, -28.106870], zoom: 3});
+			// Add OpenStreetMap tile layer to map element
+
+			L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
+				attribution: '© OpenStreetMap'
+			}).addTo(map);
+
+			myData.forEach((data) =>{
+				if(data.lon != null && data.lat != null){
+					var geojsonFeature = {
+						"type": "Feature",
+							"properties": {
+							"name": data.country_region,
+							"deaths": data.deaths,
+							"recovered": data.recovered,
+							"confirmed": data.confirmed
+						},
+						"geometry": {
+							"type": "Point",
+							"coordinates": [data.lon,data.lat]
+						}
+					};
+
+					casesString = `${data.confirmed}`;
+
+					if ( data.confirmed > 1000 ) {
+					casesString = `${casesString.slice(0, -3)}k+`
+					}
+
+					//- if ( updated ) {
+					//- updatedFormatted = new Date(updated).toLocaleString();
+					//- }
+					const html = `
+						<span class="icon-marker">
+							<span class="icon-marker-tooltip">
+							<h2>${data.country_region}</h2>
+							<ul>
+								<li><strong>Confirmed:</strong> ${data.confirmed}</li>
+								<li><strong>Deaths:</strong> ${data.deaths}</li>
+								<li><strong>Recovered:</strong> ${data.recovered}</li>
+								<li><strong>Last Update:</strong> ${data.date}</li>
+							</ul>
+							</span>
+							${ casesString }
+						</span>
+						`;
+					var marker = L.marker([data.lat, data.lon],{
+												icon: L.divIcon({
+													className: 'icon',
+													html: html
+												}),
+												riseOnHover: true
+											}).addTo(map);	
+				}
+			});
