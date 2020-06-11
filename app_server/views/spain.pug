@@ -268,4 +268,103 @@ block content
                         }
                     }
                 }); 
+        br
+        .row
+            canvas(id="canvas3" style="width=200px; height=200px")
+            script.
+                var data_graph_diario = !{JSON.stringify(data_graph_diario)};
+                console.log(data_graph_diario);
+                var ctx = document.getElementById('canvas3').getContext('2d');
+                var chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'bar',
+                    // The data for our dataset
+                    data: {
+                        labels: data_graph_diario.date,
+                    datasets: [
+                        {
+                        label: 'Deaths',
+                        fill: false,
+                        data: data_graph_diario.deaths,
+                        borderColor: "red",
+                        borderWidth: 3,
+                        pointDotRadius: 1,
+                        pointDotStrokeWidth: 8,
+                        pointHitDetectionRadius: 20,            
+
+                        pointRadius: 0,
+                        hoverRadius:5
+                        }
+                        ]
+                    },
+
+                    // Configuration options go here
+                    options: {
+                        legend: {
+                        position: 'top',
+                        labels: {
+                            fontColor: 'white'
+                        }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Fallecidos diarios',
+                            fontColor: 'white'
+                        },
+                        tooltips: {
+                            mode: 'index',
+                            position: 'nearest',
+                            intersect: false
+                            
+                        },
+                        ointLabels: {
+                            fontColor: 'white' // labels around the edge like 'Running'
+                        },
+                        gridLines: {
+                            color: 'white'
+                        },
+                        angleLines: {
+                            color: 'white' // lines radiating from the center
+                        },
+                        scales: {
+                                xAxes: [ {
+                                    gridLines: {
+                                        color: "rgb(231,233,237,0.3)"
+                                    },
+                                    //- type: 'time',
+                                    color: 'white',
+                                    //- time: {
+                                    //-     parser: 'YYYY-MM-DDTHH:mm:ss.sssZ',
+                                    //-     // tooltipFormat: 'll HH:mm',
+                                    //-     // unit: 'day',
+                                    //-     unitStepSize: 7,
+                                    //-     // displayFormats: {
+                                    //-     //   'day': 'DD/MM/YYYY'
+                                    //-     // }
+                                    //-     displayFormats: {
+                                    //-     'millisecond': 'MMM DD',
+                                    //-     'second': 'MMM DD',
+                                    //-     'minute': 'MMM DD',
+                                    //-     'hour': 'MMM DD',
+                                    //-     'day': 'MMM DD',
+                                    //-     'week': 'MMM DD',
+                                    //-     'month': 'MMM DD',
+                                    //-     'quarter': 'MMM DD',
+                                    //-     'year': 'MMM DD',
+                                    //-     }
+                                    //- }
+                                }
+                            ],
+                            yAxes: [{
+                                gridLines: {
+                                color: "rgb(231,233,237,0.3)"
+                                },
+                                fontColor: 'white',
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                }); 
             

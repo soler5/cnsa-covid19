@@ -9,9 +9,9 @@ block content
         table.table.table-dark
             thead
                 tr
-                    th.text-warning Confirmed
-                    th.text-danger Deaths
-                    th.text-success Recovered
+                    th.text-warning Contagiados
+                    th.text-danger Fallecidos
+                    th.text-success Recperados
             tbody
                 tr
                     td.text-warning #{world_summary.confirmed}
@@ -21,24 +21,24 @@ block content
         .container
             .row
                 .col.col-md-6.col-sm-6.col-xs-12
-                    h2 TOP 10 paises infectados
+                    h2 TOP 10 paises contagiados
                     table.table.table-dark
                         tr.thead-dark
-                            th(scope="col") Country
-                            th.text-warning(scope="col") Confirmed
-                            th.text-danger(scope="col") Deaths
+                            th(scope="col") Pais
+                            th.text-warning(scope="col") Contagiados
+                            th.text-danger(scope="col") Fallecidos
                         for data in data_confirmed
                             tr
                                 td #{data.country_region}
                                 td.text-warning #{data.confirmed}
                                 td.text-danger #{data.deaths}
                 .col.col-md-6.col-sm-6.col-xs-12
-                    h2 TOP 10 paises muertes
+                    h2 TOP 10 paises fallecidos
                     table.table.table-dark
                         tr.thead-dark
-                            th(scope="col") Country
-                            th.text-danger(scope="col") Deaths
-                            th.text-warning(scope="col") Confirmed
+                            th(scope="col") Pais
+                            th.text-danger(scope="col") Fallecidos
+                            th.text-warning(scope="col") Contagiados
                         - var n = 0;
                         for data in data_map
                             if n < 10
@@ -47,3 +47,454 @@ block content
                                     td #{data.country_region}
                                     td.text-danger #{data.deaths}
                                     td.text-warning #{data.confirmed}
+            //- br
+            //- .row
+            //-     h2 Gráfica TOP 10 paises contagiados
+            //-     canvas(id="canvas1" style="width=200px; height=200px")
+            //-     script.
+            //-         var graph_top = !{JSON.stringify(graph_top_confirmed)};
+            //-         console.log(graph_top);
+            //-         var ctx = document.getElementById('canvas1').getContext('2d');
+            //-         var chart = new Chart(ctx, {
+            //-             // The type of chart we want to create
+            //-             type: 'line',
+            //-             // The data for our dataset
+            //-             data: {
+            //-                 labels: graph_top.date,
+            //-             datasets: [
+            //-                 {
+            //-                 label: graph_top.paises[0].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[0].confirmed,
+            //-                 borderColor: "red",
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[1].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[1].confirmed,
+            //-                 borderColor: 'green',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[2].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[2].confirmed,
+            //-                 borderColor: 'orange',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[3].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[3].confirmed,
+            //-                 borderColor: 'blue',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[4].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[4].confirmed,
+            //-                 borderColor: 'white',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[5].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[5].confirmed,
+            //-                 borderColor: 'pink',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[6].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[6].confirmed,
+            //-                 borderColor: 'brown',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[7].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[7].confirmed,
+            //-                 borderColor: 'purple',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[8].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[8].confirmed,
+            //-                 borderColor: 'yellow',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[9].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[9].confirmed,
+            //-                 borderColor: '#61C8E9',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 ]
+            //-             },
+
+            //-             // Configuration options go here
+            //-             options: {
+            //-                 legend: {
+            //-                 position: 'top',
+            //-                 labels: {
+            //-                     fontColor: 'white'
+            //-                 }
+            //-                 },
+            //-                 title: {
+            //-                     display: true,
+            //-                     text: 'Paises TOP 10 Contagiados',
+            //-                     fontColor: 'white'
+            //-                 },
+            //-                 tooltips: {
+            //-                     mode: 'index',
+            //-                     position: 'nearest',
+            //-                     intersect: false
+                                
+            //-                 },
+            //-                 ointLabels: {
+            //-                     fontColor: 'white' // labels around the edge like 'Running'
+            //-                 },
+            //-                 gridLines: {
+            //-                     color: 'white'
+            //-                 },
+            //-                 angleLines: {
+            //-                     color: 'white' // lines radiating from the center
+            //-                 },
+            //-                 scales: {
+            //-                         xAxes: [ {
+            //-                             gridLines: {
+            //-                                 color: "rgb(231,233,237,0.3)"
+            //-                             },
+            //-                             //- type: 'time',
+            //-                             color: 'white',
+            //-                             //- time: {
+            //-                             //-     parser: 'YYYY-MM-DDTHH:mm:ss.sssZ',
+            //-                             //-     // tooltipFormat: 'll HH:mm',
+            //-                             //-     // unit: 'day',
+            //-                             //-     unitStepSize: 7,
+            //-                             //-     // displayFormats: {
+            //-                             //-     //   'day': 'DD/MM/YYYY'
+            //-                             //-     // }
+            //-                             //-     displayFormats: {
+            //-                             //-     'millisecond': 'MMM DD',
+            //-                             //-     'second': 'MMM DD',
+            //-                             //-     'minute': 'MMM DD',
+            //-                             //-     'hour': 'MMM DD',
+            //-                             //-     'day': 'MMM DD',
+            //-                             //-     'week': 'MMM DD',
+            //-                             //-     'month': 'MMM DD',
+            //-                             //-     'quarter': 'MMM DD',
+            //-                             //-     'year': 'MMM DD',
+            //-                             //-     }
+            //-                             //- }
+            //-                         }
+            //-                     ],
+            //-                     yAxes: [{
+            //-                         gridLines: {
+            //-                         color: "rgb(231,233,237,0.3)"
+            //-                         },
+            //-                         fontColor: 'white',
+            //-                         ticks: {
+            //-                             beginAtZero: true
+            //-                         }
+            //-                     }]
+            //-                 }
+            //-             }
+            //-         }); 
+
+            //- br
+            //- .row
+            //-     h2 Gráfica TOP 10 paises fallecidos
+            //-     canvas(id="canvas2" style="width=200px; height=200px")
+            //-     script.
+            //-         var graph_top = !{JSON.stringify(graph_top)};
+            //-         console.log(graph_top);
+            //-         var ctx = document.getElementById('canvas2').getContext('2d');
+            //-         var chart = new Chart(ctx, {
+            //-             // The type of chart we want to create
+            //-             type: 'line',
+            //-             // The data for our dataset
+            //-             data: {
+            //-                 labels: graph_top.date,
+            //-             datasets: [
+            //-                 {
+            //-                 label: graph_top.paises[0].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[0].deaths,
+            //-                 borderColor: "red",
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[1].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[1].deaths,
+            //-                 borderColor: 'green',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[2].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[2].deaths,
+            //-                 borderColor: 'orange',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[3].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[3].deaths,
+            //-                 borderColor: 'blue',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[4].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[4].deaths,
+            //-                 borderColor: 'white',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[5].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[5].deaths,
+            //-                 borderColor: 'pink',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[6].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[6].deaths,
+            //-                 borderColor: 'brown',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[7].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[7].deaths,
+            //-                 borderColor: 'purple',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[8].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[8].deaths,
+            //-                 borderColor: 'yellow',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 {
+            //-                 label: graph_top.paises[9].country,
+            //-                 fill: false,
+            //-                 data: graph_top.paises[9].deaths,
+            //-                 borderColor: '#61C8E9',
+            //-                 borderWidth: 3,
+            //-                 pointDotRadius: 1,
+            //-                 pointDotStrokeWidth: 8,
+            //-                 pointHitDetectionRadius: 20,            
+
+            //-                 pointRadius: 0,
+            //-                 hoverRadius:5
+
+            //-                 },
+            //-                 ]
+            //-             },
+
+            //-             // Configuration options go here
+            //-             options: {
+            //-                 legend: {
+            //-                 position: 'top',
+            //-                 labels: {
+            //-                     fontColor: 'white'
+            //-                 }
+            //-                 },
+            //-                 title: {
+            //-                     display: true,
+            //-                     text: 'Paises TOP 10 Fallecidos',
+            //-                     fontColor: 'white'
+            //-                 },
+            //-                 tooltips: {
+            //-                     mode: 'index',
+            //-                     position: 'nearest',
+            //-                     intersect: false
+                                
+            //-                 },
+            //-                 ointLabels: {
+            //-                     fontColor: 'white' // labels around the edge like 'Running'
+            //-                 },
+            //-                 gridLines: {
+            //-                     color: 'white'
+            //-                 },
+            //-                 angleLines: {
+            //-                     color: 'white' // lines radiating from the center
+            //-                 },
+            //-                 scales: {
+            //-                         xAxes: [ {
+            //-                             gridLines: {
+            //-                                 color: "rgb(231,233,237,0.3)"
+            //-                             },
+            //-                             //- type: 'time',
+            //-                             color: 'white',
+            //-                             //- time: {
+            //-                             //-     parser: 'YYYY-MM-DDTHH:mm:ss.sssZ',
+            //-                             //-     // tooltipFormat: 'll HH:mm',
+            //-                             //-     // unit: 'day',
+            //-                             //-     unitStepSize: 7,
+            //-                             //-     // displayFormats: {
+            //-                             //-     //   'day': 'DD/MM/YYYY'
+            //-                             //-     // }
+            //-                             //-     displayFormats: {
+            //-                             //-     'millisecond': 'MMM DD',
+            //-                             //-     'second': 'MMM DD',
+            //-                             //-     'minute': 'MMM DD',
+            //-                             //-     'hour': 'MMM DD',
+            //-                             //-     'day': 'MMM DD',
+            //-                             //-     'week': 'MMM DD',
+            //-                             //-     'month': 'MMM DD',
+            //-                             //-     'quarter': 'MMM DD',
+            //-                             //-     'year': 'MMM DD',
+            //-                             //-     }
+            //-                             //- }
+            //-                         }
+            //-                     ],
+            //-                     yAxes: [{
+            //-                         gridLines: {
+            //-                         color: "rgb(231,233,237,0.3)"
+            //-                         },
+            //-                         fontColor: 'white',
+            //-                         ticks: {
+            //-                             beginAtZero: true
+            //-                         }
+            //-                     }]
+            //-                 }
+            //-             }
+            //-         }); 
